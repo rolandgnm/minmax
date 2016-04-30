@@ -1,0 +1,69 @@
+$square-size-portrait: 80vw;
+$square-size-landscape: 80vh;
+
+
+body, html {
+  height: 100%;
+  background-color: #EEEEEE;
+}
+
+.gamefield {
+  display: flex;
+  flex-flow: column nowrap;
+  height: $square-size-portrait;
+  max-height: 80vh;
+  margin: auto;
+  // padding: 10px;
+  width: $square-size-portrait;
+  max-width: 960px;
+  justify-content: center;
+
+  .field-row {
+    display: flex;
+    flex-flow: row nowrap;
+    flex: 1 1 100%;
+
+
+    .field-cell {
+      border: 1px dashed #6C7A89;
+      flex: 1 2 100%;
+      text-align: center;
+    }
+
+    .left {
+      border-left: 0px;
+    }
+
+    .right {
+      border-right: 0px;
+    }
+
+    .top {
+      border-top: 0px;
+    }
+
+    .bottom {
+      border-bottom: 0px;
+    }
+
+    .circle {
+      background: url(../images/game-01.svg);
+      background-size: contain;
+
+    }
+
+    .cross {
+      background: url(../images/game-02.svg);
+      background-size: contain;
+    }
+
+  }
+}
+
+@media screen and (orientation: landscape) {
+  .gamefield {
+    height: $square-size-landscape;
+    width: $square-size-landscape;
+  }
+}
+

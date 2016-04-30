@@ -1,0 +1,10 @@
+@import "node_modules/normalize.css/normalize.css";
+
+$icon-font-path: '../fonts/';
+
+// bower:scss
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+// endbower
+
+@import "app/styles/_original.scss";
+@import "app/styles/_custom.scss";

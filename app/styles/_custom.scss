@@ -47,14 +47,12 @@ body, html {
     }
 
     .circle {
-      background: url(../images/game-circle.svg);
-      background-size: contain;
+      background: no-repeat center/70% url(../images/game-circle.svg);
 
     }
 
     .cross {
-      background: url(../images/game-cross.svg);
-      background-size: contain;
+      background: no-repeat center/70% url(../images/game-cross.svg);
     }
 
   }

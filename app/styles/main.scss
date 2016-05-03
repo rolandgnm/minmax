@@ -1,4 +1,4 @@
-@import "node_modules/normalize.css/normalize.css";
+@import "_normalize.scss";
 
 $icon-font-path: '../fonts/';
 
@@ -6,5 +6,5 @@ $icon-font-path: '../fonts/';
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
 
-@import "app/styles/_original.scss";
-@import "app/styles/_custom.scss";
+@import "_original.scss";
+@import "_custom.scss";

@@ -21,38 +21,37 @@ body, html {
   .field-row {
     display: flex;
     flex-flow: row nowrap;
-    flex: 1 1 100%;
+    flex: 1;
 
 
     .field-cell {
-      border: 1px dashed #6C7A89;
-      flex: 1 2 100%;
+      flex: 1;
       text-align: center;
     }
 
-    .left {
-      border-left: 0px;
+    .center {
+      border: 1px dashed #6C7A89;
     }
 
-    .right {
-      border-right: 0px;
+    .xborders{
+      border-style: dashed;
+      border-color: #6C7A89;
+      border-width: 1px 0px;
+
     }
 
-    .top {
-      border-top: 0px;
-    }
-
-    .bottom {
-      border-bottom: 0px;
+    .yborders{
+      @extend .xborders;
+      border-width: 0px 1px;
     }
 
     .circle {
-      background: no-repeat center/70% url(../images/game-circle.svg);
+      background: no-repeat center/60% url(../images/game-circle.svg);
 
     }
 
     .cross {
-      background: no-repeat center/70% url(../images/game-cross.svg);
+      background: no-repeat center/60% url(../images/game-cross.svg);
     }
 
   }

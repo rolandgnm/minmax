@@ -4,39 +4,62 @@
 'use strict';
 
 var CROSS_TURN = true;
-var nodes = [[],[],[]];
+var nodesMatrix = [[],[],[]];
 
-// TODO: var hasCross= function (elem ) {
-// TODO: var resetGameField = function (positionSet);
 
 $(document).ready(function(){
   // Initialization
-  var initializeGame = function () {
-    $('.field-cell').each(function (index, elem) {
-      nodes[$(elem).parent().data('id')].push(0);
-      if ($(elem).hasClass('cross')) { $(elem).removeClass('cross'); }
-      if ($(elem).hasClass('circle')) { $(elem).removeClass('circle'); }
-    });
-  }
   initializeGame();
 
 
-  $('.field-cell').click(function(){
-    var node = $(this);
-    var parentId = node.parent().data('id');
-    var nodeId = node.data('id');
-    console.log(parentId + ' ' + nodeId);
+  $('.field-cell').on('click', function () {
+    var nodeId = getNodeId(this);
 
-    if (CROSS_TURN) {
-      if (node.hasClass('cross')) { node.removeClass('cross'); }
-      node.addClass('circle');
-    } else {
-      if (node.hasClass('circle')) { node.removeClass('circle'); }
-      node.addClass('cross');
-    }
+    if( !nodesMatrix[nodeId.i][nodeId.j] ) {
+      var $elem = $(this);
+
+      if (CROSS_TURN) {
+        if ($elem.hasClass('cross')) { $elem.removeClass('cross'); }
+        $elem.addClass('circle');
+        nodesMatrix[nodeId.i][nodeId.j] = 1;
+      } else {
+        if ($elem.hasClass('circle')) { $elem.removeClass('circle'); }
+        $elem.addClass('cross');
+        nodesMatrix[nodeId.i][nodeId.j] = -1;
+      }
     CROSS_TURN = !CROSS_TURN;
-    // block propagation of fast new clicks
+   }
+    //block propagation of new clicks
     return false;
-  });
+  }
+  );
 
 });
+
+var markNodeById = function (positionI, positionJ, CSSclass ) {
+  $(getNodeById(positionI, positionJ)).addClass(CSSclass);
+}
+
+var getNodeById = function (positionI, positionJ) {
+   return $('.field-row')
+            .find('[data-id="'+ positionI + '"]')
+            .children('.field-cell')
+            .find('[data-id="'+ positionj + '"]')
+}
+
+var getNodeId = function (DOMelem) {
+  // i for line, j for column.
+  return {
+    i: $(DOMelem).parent().data('id')
+    ,j: $(DOMelem).data('id')
+  }
+}
+
+var initializeGame = function () {
+    $('.field-cell').each(function (index, DOMelem) {
+      nodesMatrix[$(DOMelem).parent().data('id')].push(0);
+      if ($(DOMelem).hasClass('cross')) { $(DOMelem).removeClass('cross'); }
+      if ($(DOMelem).hasClass('circle')) { $(DOMelem).removeClass('circle'); }
+    });
+
+}

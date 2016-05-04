@@ -1,22 +1,25 @@
-$square-size-portrait: 80vw;
-$square-size-landscape: 80vh;
+$square-size-portrait: 75vw;
+$square-size-landscape: 75vh;
+$bg-color: #EEEEEE;
+$border-color:rgba(108,122,137,0.75);
+$btn-color:rgba(28,54,100,0.85);
 
 
 body, html {
   height: 100%;
-  background-color: #EEEEEE;
+  background-color: $bg-color;
 }
 
 .gamefield {
   display: flex;
   flex-flow: column nowrap;
   height: $square-size-portrait;
+  justify-content: center;
   max-height: 80vh;
   margin: auto;
   // padding: 10px;
   width: $square-size-portrait;
   max-width: 960px;
-  justify-content: center;
 
   .field-row {
     display: flex;
@@ -30,19 +33,19 @@ body, html {
     }
 
     .center {
-      border: 1px dashed #6C7A89;
+      border: 2px dashed $border-color;
     }
 
     .xborders{
       border-style: dashed;
-      border-color: #6C7A89;
-      border-width: 1px 0px;
+      border-color: $border-color;
+      border-width: 2px 0px;
 
     }
 
     .yborders{
       @extend .xborders;
-      border-width: 0px 1px;
+      border-width: 0px 2px;
     }
 
     .circle {
@@ -64,3 +67,76 @@ body, html {
   }
 }
 
+
+.button{
+  background-color: $btn-color;
+  border: 0px solid #FFF;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: #fff;
+  display: block;
+  font: normal normal normal 18px/normal sans-serif;
+  margin: 5vh auto;
+  max-width: 250px;
+  min-width: 150px;
+  overflow: hidden;
+  padding: 16.8px 28px;
+  position: relative;
+  letter-spacing: 1px;
+  font-weight: 100;
+  z-index: 1;
+  outline: none;
+  width:25%;
+
+
+  &::before {
+    box-sizing: border-box;
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    margin: -15px 0 0 1px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    transform-origin: 110% 50%;
+    transform: scale3d(1, 2, 1);
+    transition: transform 0.3s, opacity 0.3s;
+    transition-timing-function: cubic-bezier(0.7,0,0.9,1);
+  }
+
+    &:hover::before{
+          transform: scale3d(9, 9, 1);
+    }
+}
+
+@media screen and (orientation: portrait) {
+  .button{
+    position: absolute;
+    margin: 5vh auto;
+    left: 25%;
+    right:25%;
+    bottom: 10vh;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 640px) {
+  body {
+    display: flex;
+    align-content: center;
+  }
+  .gamefield {
+    margin: auto 10vw;
+    height: 90vh;
+  }
+  .button{
+    position: absolute;
+    margin: 5vh auto;
+    top: 35%;
+    bottom: 35%;
+    right: 10vw;
+    max-height: 20vh;
+  }
+}

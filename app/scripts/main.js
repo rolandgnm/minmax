@@ -12,6 +12,11 @@ $(document).ready(function(){
   initializeGame();
 
 
+  $('.restart-button').on('click', function () {
+    initializeGame();
+    return false;
+  });
+
   $('.field-cell').on('click', function () {
     var nodeId = getNodeId(this);
 
@@ -61,5 +66,7 @@ var initializeGame = function () {
       if ($(DOMelem).hasClass('cross')) { $(DOMelem).removeClass('cross'); }
       if ($(DOMelem).hasClass('circle')) { $(DOMelem).removeClass('circle'); }
     });
-
+    nodesMatrix = nodesMatrix.splice(0,3);
+    nodesMatrix = [[],[],[]];
+    CROSS_TURN = true;
 }

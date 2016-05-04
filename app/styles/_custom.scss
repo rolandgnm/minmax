@@ -68,7 +68,7 @@ body, html {
 }
 
 
-.button{
+.restart-button {
   background-color: $btn-color;
   border: 0px solid #FFF;
   border-radius: 5px;
@@ -80,7 +80,7 @@ body, html {
   max-width: 250px;
   min-width: 150px;
   overflow: hidden;
-  padding: 16.8px 28px;
+  padding: 2.5vh 28px;
   position: relative;
   letter-spacing: 1px;
   font-weight: 100;
@@ -110,15 +110,27 @@ body, html {
     &:hover::before{
           transform: scale3d(9, 9, 1);
     }
+
+    span {
+      margin-left: 8px;
+    }
+
 }
 
 @media screen and (orientation: portrait) {
-  .button{
+  .restart-button {
     position: absolute;
     margin: 5vh auto;
     left: 25%;
     right:25%;
-    bottom: 10vh;
+    bottom: 8vh;
+  }
+}
+
+@media screen and (max-height: 410px) {
+  .restart-button  {
+      margin: 4vh auto;
+
   }
 }
 
@@ -131,7 +143,7 @@ body, html {
     margin: auto 10vw;
     height: 90vh;
   }
-  .button{
+  .restart-button {
     position: absolute;
     margin: 5vh auto;
     top: 35%;
@@ -140,3 +152,5 @@ body, html {
     max-height: 20vh;
   }
 }
+
+

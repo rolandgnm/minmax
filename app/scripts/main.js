@@ -1,15 +1,51 @@
 /// <reference path='../../typings/jquery/jquery.d.ts' />
 /*eslint-env jquery */
-
 'use strict';
 
 var CROSS_TURN = true;
-var nodesMatrix = [[],[],[]];
+var nodesMatrix = [[], [], []];
+
+
+var initializeGame = function () {
+    $('.field-cell').each(function (index, DOMelem) {
+      nodesMatrix[$(DOMelem).parent().data('id')].push(0);
+      if ($(DOMelem).hasClass('cross')) { $(DOMelem).removeClass('cross'); }
+      if ($(DOMelem).hasClass('circle')) { $(DOMelem).removeClass('circle'); }
+    });
+    nodesMatrix = nodesMatrix.splice(0, 3);
+    nodesMatrix = [[], [], []];
+    CROSS_TURN = true;
+};
+
+//LINT
+// var getNodeById = function (positionI, positionJ) {
+//    return $('.field-row')
+//             .find('[data-id="'+ positionI + '"]')
+//             .children('.field-cell')
+//             .find('[data-id="'+ positionj + '"]')
+// }
+
+//LINT
+// var markNodeById = function (positionI, positionJ, CSSclass ) {
+//   $(getNodeById(positionI, positionJ)).addClass(CSSclass);
+// }
+
+var getNodeId = function (DOMelem) {
+  // i for line, j for column.
+  return {
+    i: $(DOMelem).parent().data('id')
+    , j: $(DOMelem).data('id')
+  };
+};
+
 
 
 $(document).ready(function(){
   // Initialization
   initializeGame();
+
+  var min = new Minmax("testando");
+  min.sendmessage();
 
 
   $('.restart-button').on('click', function () {
@@ -40,33 +76,3 @@ $(document).ready(function(){
   );
 
 });
-
-var markNodeById = function (positionI, positionJ, CSSclass ) {
-  $(getNodeById(positionI, positionJ)).addClass(CSSclass);
-}
-
-var getNodeById = function (positionI, positionJ) {
-   return $('.field-row')
-            .find('[data-id="'+ positionI + '"]')
-            .children('.field-cell')
-            .find('[data-id="'+ positionj + '"]')
-}
-
-var getNodeId = function (DOMelem) {
-  // i for line, j for column.
-  return {
-    i: $(DOMelem).parent().data('id')
-    ,j: $(DOMelem).data('id')
-  }
-}
-
-var initializeGame = function () {
-    $('.field-cell').each(function (index, DOMelem) {
-      nodesMatrix[$(DOMelem).parent().data('id')].push(0);
-      if ($(DOMelem).hasClass('cross')) { $(DOMelem).removeClass('cross'); }
-      if ($(DOMelem).hasClass('circle')) { $(DOMelem).removeClass('circle'); }
-    });
-    nodesMatrix = nodesMatrix.splice(0,3);
-    nodesMatrix = [[],[],[]];
-    CROSS_TURN = true;
-}

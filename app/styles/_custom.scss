@@ -57,6 +57,18 @@ body, html {
       background: no-repeat center/60% url(../images/game-cross.svg);
     }
 
+    .winner{
+      animation: blink 0.5s;
+      animation-iteration-count: 5;
+
+      @keyframes blink {
+        0%   {background-colo: none}
+        50% {background-color: rgba(25,255,0,0.20)}
+        100%   {background-colo: none}
+
+      }
+    }
+
   }
 }
 

@@ -39,13 +39,13 @@ var getNodeId = function (DOMelem) {
 };
 
 
-
+// Page Loaded
 $(document).ready(function(){
   // Initialization
   initializeGame();
 
-  var min = new Minmax("testando");
-  min.sendmessage();
+  // var min = new Minmax("testando");
+  // min.sendmessage();
 
 
   $('.restart-button').on('click', function () {

@@ -16,28 +16,28 @@ class Minmax {
 
   minimax(state, ply, player, opponent) {
     var s = new GameState(state.state);
-    var best = new MoveEvaluation({move: null, score: null});
-
-    if(ply === 0 || (!s.getNextValidMove() && s.getNextValidMove() !==0 ) ) {
-      return new MoveEvaluation({move: null, score: this.original.eval(s)});
-    }
+    this.best = this.best ||  new MoveEvaluation({move: undefined, score: 0});
 
     var m = s.getNextValidMove();
+    if(ply === 0 || (!m && m !==0 ) ) {
+      return new MoveEvaluation({move: undefined, score: this.original.eval(s)});
+    }
+
     while (m || m === 0) {
        s.executeMove(m, player.val);
        var me = this.minimax(s, ply-1, opponent, player);
        s.undoMove(m);
 
        if(player.val === this.original.val){
-         if(me.score > best.score) best = new MoveEvaluation({
+         if(me.score > this.best.score) this.best = new MoveEvaluation({
            move: m
           ,score: me.score});
        } else {
-         if(me.score < best.score) best = new MoveEvaluation({
+         if(me.score < this.best.score) this.best = new MoveEvaluation({
            move: m
           ,score: me.score});
        }
-       return best;
+       return this.best;
     }
 
   }
@@ -105,7 +105,7 @@ class Player {
       (state[0] == this.val && state[4] == this.val && state[8] == this.val) ||
       (state[2] == this.val && state[4] == this.val && state[6] == this.val)
     ) {
-      return 10;
+      return 2;
     } else if (
       (state[0] == this.opponent && state[1] == this.opponent && state[2] == this.opponent) ||
       (state[3] == this.opponent && state[4] == this.opponent && state[5] == this.opponent) ||
@@ -116,9 +116,9 @@ class Player {
       (state[0] == this.opponent && state[4] == this.opponent && state[8] == this.opponent) ||
       (state[2] == this.opponent && state[4] == this.opponent && state[6] == this.opponent)
     ) {
-      return -10;
+      return -2;
     } else {
-      return 0;
+      return -1;
     }
   }
 }//eof
@@ -127,19 +127,25 @@ class Player {
 var human = new Player(1);
 var comp = new Player(2);
 
-var min = new Minmax(50000);
+var min = new Minmax(3);
 
 var vOri = [0,0,0,
             0,0,0,
             0,0,0];
 
 var vDraw = [1,0,1,
-             0,2,0,
+             0,2,2,
              0,1,0];
 
 
-var gameStateOri = new GameState([0,0,0,0,0,0,0,0,0]);
-var gameStateAny = new GameState(vDraw);
 
-var nextMove = min.bestMove(gameStateAny, comp, human);
+var vAIwin = [2,1,0,
+              1,2,1,
+              2,1,0];
+
+
+
+var gameState = new GameState(vAIwin);
+
+var nextMove = min.bestMove(gameState, comp, human);
 

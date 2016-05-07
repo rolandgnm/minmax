@@ -93,7 +93,8 @@ class Player {
     }
   }
 
-  eval(state) {
+  eval(gameState) {
+    var state = gameState.state;
     if (
       (state[0] == this.val && state[1] == this.val && state[2] == this.val) ||
       (state[3] == this.val && state[4] == this.val && state[5] == this.val) ||
@@ -115,7 +116,7 @@ class Player {
       (state[0] == this.opponent && state[4] == this.opponent && state[8] == this.opponent) ||
       (state[2] == this.opponent && state[4] == this.opponent && state[6] == this.opponent)
     ) {
-    return -10;
+      return -10;
     } else {
       return 0;
     }

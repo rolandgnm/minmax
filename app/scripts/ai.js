@@ -1,5 +1,7 @@
+// Author: Roland Gabriel @rolandgnm
 // Score heuristic Based on:
-// Nils J. Nilson. Artificial Intelligence, a new syntheses. 1998.
+// Nils J. Nilson, a new syntheses. 1998.
+//    Artificial Intelligence
 
 // Alphabeta Based on:
 // George T Heineman; Stanley Selkow; Gary Pollice,
@@ -7,60 +9,53 @@
 
 class Alphabeta {
   constructor (ply) {
+    // depth in tree the algo can go
     this.ply = ply;
 
   }
 
+  // Requested every computer turn
+  // @params: s: state, player: Player, opponent: Player
+  // @return: position: Number (0~8)
   bestMove (s, player, opponent){
     this.state = new GameState(s.state)
-    // this.best = new MoveEvaluation(null, null);
+    // MoveEvaluation {move, score}
     var me = this.alphabeta(this.ply, player, opponent, Number.MIN_SAFE_INTEGER, Number.MAX_SAFE_INTEGER );
-//     var me = this.alphabeta(this.ply, player, opponent, -1, 1 );
 
     return me.move;
   }
 
+  // Recursive search
+  // @params: ply: search depth, player: Player, opponent: Player, low: Number, high: Number
+  // @return: MoveEvaluation
   alphabeta(ply, player, opponent, low, high) {
     var s = this.state;
+    //return positions with 0 or [] if terminal state
     var it = s.getNextValidMoves();
     if(ply === 0 || !it.length ) {
       return new MoveEvaluation(undefined, player.eval(s));
     }
 
-    // this.best = new MoveEvaluation(null, low);
     var best = new MoveEvaluation(undefined, low);
     while (it.length) {
        var mov = it.shift();
        s.executeMove(mov, player.val);
-       this.plyCount = ++this.plyCount || 1; // STATS Purpose.
        var me  = this.alphabeta(ply-1, opponent, player, -high, -low);
-       //
-//        console.log(s.state[0]+""+s.state[1]+""+s.state[2]+"\n"+
-//                    s.state[3]+""+s.state[4]+""+s.state[5]+"\n"+
-//                    s.state[6]+""+s.state[7]+""+s.state[8]
-//                    +"\n\nplayer "+player.val
-//                    +"\n\ncurr mov "+mov
-//                    +"\n\nscore "+ -me.score
-//                    +"\n\nbest.mov "+best.mov)
-//        //
        s.undoMove(mov);
-
        if((-me.score) > low){
          low = -me.score;
          best = new MoveEvaluation(mov, low);
        }
-
        if(low >= high) {
          return best;
        }
-
     }
     return best;
   }
 
 }
 
-// Trata o mapa do jogo como vetor linear
+// glue a move to a score
 class MoveEvaluation {
   constructor (move, score) {
     this.move = move;
@@ -117,14 +112,26 @@ class GameState {
 
 
 class Player {
-  constructor (playerNum) {
-    if(playerNum === 1) {
-      this.val = playerNum;
-      this.opponent = 2;
-    } else if (playerNum === 2) {
-      this.val = playerNum;
-      this.opponent = 1;
-    }
+  constructor (val, opponent) {
+      this.val = val;
+      this.opponent = opponent;
+  }
+
+  // Evaluate if this current player wins, loses or what is current
+  // score if game is going to a draw.
+  // @params: gameState: GameState
+  // @return: Number.MAX_SAFE_INTEGER if wins,
+  //          Number.MIN_SAFE_INTEGER if loses,
+  //          -9 ~ 9 in case of Draw.
+  eval(gameState) {
+    this.stateArray = gameState.state;
+    if (this.checkWin(this.val))
+      return Number.MAX_SAFE_INTEGER;
+    else if (this.checkWin(this.opponent))
+      return Number.MIN_SAFE_INTEGER;
+    else
+      return this.countOpenPaths(
+        this.val, this.opponent) - this.countOpenPaths(this.opponent, this.val);
   }
 
   checkWin(playerValue) {
@@ -159,37 +166,4 @@ class Player {
     return WINNING_PATHS - this.countBLockedPaths(blockingValue);
 
   }
-
-  eval(gameState) {
-    this.stateArray = gameState.state;
-    if (this.checkWin(this.val))
-      return Number.MAX_SAFE_INTEGER;
-    else if (this.checkWin(this.opponent))
-      return Number.MIN_SAFE_INTEGER;
-    else
-      return this.countOpenPaths(
-        this.val, this.opponent) - this.countOpenPaths(this.opponent, this.val);
-  }
-}//eof
-
-
-var human = new Player(1);
-var comp = new Player(2);
-
-var min = new Alphabeta(9);
-
-
-var vState = [1,2,1,
-              2,2,1,
-              1,1,2];
-
-
-//Testar caso de retornar undefined e haver posição.
-
-
-
-var gameState = new GameState(vState);
-
-var tie = comp.eval(gameState); console.log(tie);
-var CnextMove = min.bestMove(gameState, comp, human); console.log('%cC ' + CnextMove, "color:orange;font-size: 16pt" )
-// var HnextMove = min.bestMove(gameState, human, comp); console.log('H ' + HnextMove)
+}
